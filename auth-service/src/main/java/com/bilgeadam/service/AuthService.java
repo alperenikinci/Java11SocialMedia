@@ -1,11 +1,13 @@
 package com.bilgeadam.service;
 
+import com.bilgeadam.dto.request.ActivateStatusRequestDto;
 import com.bilgeadam.dto.request.ActivationRequestDto;
 import com.bilgeadam.dto.request.LoginRequestDto;
 import com.bilgeadam.dto.request.RegisterRequestDto;
 import com.bilgeadam.dto.response.RegisterResponseDto;
 import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
+import com.bilgeadam.manager.UserManager;
 import com.bilgeadam.mapper.AuthMapper;
 import com.bilgeadam.repository.AuthRepository;
 import com.bilgeadam.repository.entity.Auth;
@@ -21,15 +23,19 @@ public class AuthService extends ServiceManager<Auth,Long> {
 
     private final AuthRepository authRepository;
 
-    public AuthService(AuthRepository authRepository) {
+    private final UserManager userManager;
+
+    public AuthService(AuthRepository authRepository, UserManager userManager) {
         super(authRepository);
         this.authRepository = authRepository;
+        this.userManager = userManager;
     }
 
     public RegisterResponseDto register(RegisterRequestDto dto) {
         Auth auth = AuthMapper.INSTANCE.fromRegisterRequestToAuth(dto);
         auth.setActivationCode(CodeGenerator.generateCode());
         save(auth);
+        userManager.createUser(AuthMapper.INSTANCE.fromAuthToUserCreateRequestDto(auth));
         return AuthMapper.INSTANCE.fromAuthToRegisterResponse(auth);
     }
 
@@ -49,6 +55,8 @@ public class AuthService extends ServiceManager<Auth,Long> {
         if(dto.getActivationCode().equals(auth.get().getActivationCode())){
             auth.get().setStatus(EStatus.ACTIVE);
             update(auth.get());
+//            userManager.activateStatus(auth.get().getId());
+            userManager.activateStatus2(ActivateStatusRequestDto.builder().authId(dto.getId()).build());
             //            auth.get().setUpdateDate(System.currentTimeMillis());
             //            authRepository.save(auth.get());
             return true;

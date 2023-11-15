@@ -5,6 +5,7 @@ ext{
         lombok: "1.18.30",
         openapi: "2.2.0",
         mapStruct: "1.5.5.Final",
+        springCloud: "4.0.4",
     ]
 
     libs =[
@@ -15,7 +16,8 @@ ext{
            lombok:                   "org.projectlombok:lombok:$versions.lombok",
            openapi:                  "org.springdoc:springdoc-openapi-starter-webmvc-ui:$versions.openapi",
            mapStruct:                "org.mapstruct:mapstruct:$versions.mapStruct",
-           mapStructProcessor :      "org.mapstruct:mapstruct-processor:$versions.mapStruct",
+           mapStructProcessor:       "org.mapstruct:mapstruct-processor:$versions.mapStruct",
+           springOpenFeign:          "org.springframework.cloud:spring-cloud-starter-openfeign:$versions.springCloud"
     ]
 
 }
