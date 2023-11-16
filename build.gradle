@@ -47,7 +47,7 @@ allprojects {
         implementation          libs.mapStruct
         annotationProcessor     libs.mapStructProcessor
         implementation          libs.springOpenFeign
-
+        implementation          libs.javaJwt
     }
     configurations {
         compileOnly{

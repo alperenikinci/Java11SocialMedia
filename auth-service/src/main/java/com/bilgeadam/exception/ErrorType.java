@@ -12,9 +12,10 @@ public enum ErrorType {
     LOGIN_ERROR(4110,"Kullanici adi veya sifre hatali...", HttpStatus.BAD_REQUEST),
     USERNAME_DUPLICATE(4111,"Kullanici adi kullanilmaktadir" ,HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(4112,"Kulanici bulunamadi..." , HttpStatus.BAD_REQUEST ),
-    ACTIVATION_CODE_ERROR(4113,"Aktivasyon kodu hatalidir..." , HttpStatus.BAD_REQUEST )
-
-
+    ACTIVATION_CODE_ERROR(4113,"Aktivasyon kodu hatalidir..." , HttpStatus.BAD_REQUEST ),
+    INVALID_TOKEN(4114,"Gecersiz token" ,HttpStatus.BAD_REQUEST),
+    TOKEN_NOT_CREATED(4115,"Token olusturulamadi..." ,HttpStatus.BAD_REQUEST ),
+    ACCOUNT_NOT_ACTIVE(4116,"Hesabınız aktif edilmemiştir. Lütfen hesabınızı aktif hale getiriniz..." , HttpStatus.FORBIDDEN)
     ;
     private int code;
     private String message;

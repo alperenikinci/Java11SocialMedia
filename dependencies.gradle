@@ -6,6 +6,7 @@ ext{
         openapi: "2.2.0",
         mapStruct: "1.5.5.Final",
         springCloud: "4.0.4",
+        jwt: "4.4.0",
     ]
 
     libs =[
@@ -17,7 +18,8 @@ ext{
            openapi:                  "org.springdoc:springdoc-openapi-starter-webmvc-ui:$versions.openapi",
            mapStruct:                "org.mapstruct:mapstruct:$versions.mapStruct",
            mapStructProcessor:       "org.mapstruct:mapstruct-processor:$versions.mapStruct",
-           springOpenFeign:          "org.springframework.cloud:spring-cloud-starter-openfeign:$versions.springCloud"
+           springOpenFeign:          "org.springframework.cloud:spring-cloud-starter-openfeign:$versions.springCloud",
+           javaJwt:                  "com.auth0:java-jwt:$versions.jwt",
     ]
 
 }

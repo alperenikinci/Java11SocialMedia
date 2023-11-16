@@ -6,6 +6,8 @@ import com.bilgeadam.dto.request.RegisterRequestDto;
 import com.bilgeadam.dto.response.RegisterResponseDto;
 import com.bilgeadam.repository.entity.Auth;
 import com.bilgeadam.service.AuthService;
+import com.bilgeadam.utility.JwtTokenManager;
+import com.bilgeadam.utility.enums.ERole;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +21,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(AUTH)
 public class AuthController {
-    /*
-    Auth'da activateStatus işlemini gerçekleştirdiğimizde user tarafı da bu güncellemeyi alsın ve statusu değişsin.
-     */
+/*
+    login metodumuzu düzenleyelim.
+    bize bir token üretip bu token'ı dönsün. ayrıca sadece status'u active olan kullanıcılar giriş yapabilsin.
+ */
 
     private final AuthService authService;
+    private final JwtTokenManager tokenManager;
 
 
     @PostMapping(REGISTER)
@@ -32,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping(LOGIN)
-    public ResponseEntity<Boolean> login(@RequestBody LoginRequestDto dto){
+    public ResponseEntity<String> login(@RequestBody LoginRequestDto dto){
         return ResponseEntity.ok(authService.login(dto));
     }
 
@@ -45,6 +49,26 @@ public class AuthController {
     public ResponseEntity<List<Auth>> findAll(){
         return ResponseEntity.ok(authService.findAll());
     }
+
+
+    @GetMapping("/create_token")
+    public ResponseEntity<String> createToken(Long id, ERole role){
+        return ResponseEntity.ok(tokenManager.createToken(id,role).get());
+    }
+    @GetMapping("/create_token2")
+    public ResponseEntity<String> createToken2(Long id){
+        return ResponseEntity.ok(tokenManager.createToken(id).get());
+    }
+
+    @GetMapping("/get_id_from_token")
+    public ResponseEntity<Long> getIdFromToken(String token){
+        return ResponseEntity.ok(tokenManager.getIdFromToken(token).get());
+    }
+    @GetMapping("/get_role_from_token")
+    public ResponseEntity<String> getRoleFromToken(String token){
+        return ResponseEntity.ok(tokenManager.getRoleFromToken(token).get());
+    }
+
 
 
 }
