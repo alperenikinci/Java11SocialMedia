@@ -19,7 +19,7 @@ ext{
            mapStruct:                "org.mapstruct:mapstruct:$versions.mapStruct",
            mapStructProcessor:       "org.mapstruct:mapstruct-processor:$versions.mapStruct",
            springOpenFeign:          "org.springframework.cloud:spring-cloud-starter-openfeign:$versions.springCloud",
-           javaJwt:                  "com.auth0:java-jwt:$versions.jwt",
+           javaJwt:                  "com.auth0:java-jwt:$versions.jwt"
     ]
 
 }

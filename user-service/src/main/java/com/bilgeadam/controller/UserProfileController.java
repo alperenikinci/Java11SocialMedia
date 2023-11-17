@@ -2,7 +2,7 @@ package com.bilgeadam.controller;
 
 import com.bilgeadam.dto.request.ActivateStatusRequestDto;
 import com.bilgeadam.dto.request.UserCreateRequestDto;
-import com.bilgeadam.repository.entity.UserProfile;
+import com.bilgeadam.dto.request.UserProfileUpdateRequestDto;
 import com.bilgeadam.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +28,11 @@ public class UserProfileController {
     @PostMapping(ACTIVATESTATUS2)
     public ResponseEntity<Boolean> activateStatus2(@RequestBody ActivateStatusRequestDto dto){
         return ResponseEntity.ok(userProfileService.activateStatus2(dto));
+    }
+
+    @PostMapping(UPDATE)
+    public ResponseEntity<Boolean> update(@RequestBody UserProfileUpdateRequestDto dto){
+        return ResponseEntity.ok(userProfileService.update(dto));
     }
 
 }
