@@ -3,10 +3,13 @@ package com.bilgeadam.controller;
 import com.bilgeadam.dto.request.ActivateStatusRequestDto;
 import com.bilgeadam.dto.request.UserCreateRequestDto;
 import com.bilgeadam.dto.request.UserProfileUpdateRequestDto;
+import com.bilgeadam.repository.entity.UserProfile;
 import com.bilgeadam.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.bilgeadam.constants.RestApi.*;
 @RestController
@@ -38,6 +41,11 @@ public class UserProfileController {
     @DeleteMapping(DELETEBYID)
     public ResponseEntity<Boolean> delete(@RequestParam Long authId){
         return ResponseEntity.ok(userProfileService.delete(authId));
+    }
+
+    @GetMapping(FINDALL)
+    public ResponseEntity<List<UserProfile>> findAll(){
+        return ResponseEntity.ok(userProfileService.findAll());
     }
 
 }

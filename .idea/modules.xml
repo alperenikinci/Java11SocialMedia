@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-gateway-service/Java11SocialMedia.api-gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-gateway-service/Java11SocialMedia.api-gateway-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/Java11SocialMedia.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/Java11SocialMedia.auth-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/config-server-git/Java11SocialMedia.config-server-git.main.iml" filepath="$PROJECT_DIR$/.idea/modules/config-server-git/Java11SocialMedia.config-server-git.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/config-server/Java11SocialMedia.config-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/config-server/Java11SocialMedia.config-server.main.iml" />
