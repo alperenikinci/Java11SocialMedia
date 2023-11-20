@@ -19,7 +19,10 @@ ext{
            mapStruct:                "org.mapstruct:mapstruct:$versions.mapStruct",
            mapStructProcessor:       "org.mapstruct:mapstruct-processor:$versions.mapStruct",
            springOpenFeign:          "org.springframework.cloud:spring-cloud-starter-openfeign:$versions.springCloud",
-           javaJwt:                  "com.auth0:java-jwt:$versions.jwt"
+           javaJwt:                  "com.auth0:java-jwt:$versions.jwt",
+           springCloudConfigServer:  "org.springframework.cloud:spring-cloud-config-server:$versions.springCloud",
+           springCloudConfigClient:  "org.springframework.cloud:spring-cloud-config-client:$versions.springCloud",
+           springCloudConfigStarter:  "org.springframework.cloud:spring-cloud-starter-config:$versions.springCloud"
     ]
 
 }

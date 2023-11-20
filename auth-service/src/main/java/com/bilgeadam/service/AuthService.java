@@ -1,9 +1,6 @@
 package com.bilgeadam.service;
 
-import com.bilgeadam.dto.request.ActivateStatusRequestDto;
-import com.bilgeadam.dto.request.ActivationRequestDto;
-import com.bilgeadam.dto.request.LoginRequestDto;
-import com.bilgeadam.dto.request.RegisterRequestDto;
+import com.bilgeadam.dto.request.*;
 import com.bilgeadam.dto.response.RegisterResponseDto;
 import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
@@ -16,6 +13,7 @@ import com.bilgeadam.utility.JwtTokenManager;
 import com.bilgeadam.utility.ServiceManager;
 import com.bilgeadam.utility.enums.EStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,11 +32,17 @@ public class AuthService extends ServiceManager<Auth,Long> {
         this.jwtTokenManager = jwtTokenManager;
     }
 
+    @Transactional //Metotta herhangi bir yerden exception donuyorsa metot icerisinde yapilan butun degisiklikleri geri alir. (Rollback)
     public RegisterResponseDto register(RegisterRequestDto dto) {
         Auth auth = AuthMapper.INSTANCE.fromRegisterRequestToAuth(dto);
         auth.setActivationCode(CodeGenerator.generateCode());
         save(auth);
-        userManager.createUser(AuthMapper.INSTANCE.fromAuthToUserCreateRequestDto(auth));
+        try {
+            userManager.createUser(AuthMapper.INSTANCE.fromAuthToUserCreateRequestDto(auth));
+        } catch (Exception e){
+//            delete(auth);
+            throw new AuthManagerException(ErrorType.USER_NOT_CREATED);
+        }
         return AuthMapper.INSTANCE.fromAuthToRegisterResponse(auth);
     }
 
@@ -78,5 +82,39 @@ public class AuthService extends ServiceManager<Auth,Long> {
             throw new AuthManagerException(ErrorType.ACTIVATION_CODE_ERROR);
         }
 
+    }
+
+    public Boolean updateEmailOrUsername(UpdateEmailOrUsernameRequestDto dto) {
+        Optional<Auth> auth = authRepository.findById(dto.getId());
+        if(auth.isEmpty()){
+            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        auth.get().setUsername(dto.getUsername());
+        auth.get().setEmail(dto.getEmail());
+        update(auth.get());
+        return true;
+    }
+
+    public Boolean delete(Long id) {
+        Optional<Auth> auth = findById(id);
+        if(auth.isEmpty()){
+            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        auth.get().setStatus(EStatus.DELETED);
+        update(auth.get());
+        userManager.delete(id);
+        return true;
+    }
+
+    public Boolean deleteByToken(String token) {
+        Optional<Long> authId = jwtTokenManager.getIdFromToken(token);
+        Optional<Auth> auth = findById(authId.get());
+        if(auth.isEmpty()){
+            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        auth.get().setStatus(EStatus.DELETED);
+        update(auth.get());
+        userManager.delete(authId.get());
+        return true;
     }
 }

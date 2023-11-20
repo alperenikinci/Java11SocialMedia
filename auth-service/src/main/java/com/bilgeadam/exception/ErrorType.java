@@ -15,8 +15,8 @@ public enum ErrorType {
     ACTIVATION_CODE_ERROR(4113,"Aktivasyon kodu hatalidir..." , HttpStatus.BAD_REQUEST ),
     INVALID_TOKEN(4114,"Gecersiz token" ,HttpStatus.BAD_REQUEST),
     TOKEN_NOT_CREATED(4115,"Token olusturulamadi..." ,HttpStatus.BAD_REQUEST ),
-    ACCOUNT_NOT_ACTIVE(4116,"Hesabınız aktif edilmemiştir. Lütfen hesabınızı aktif hale getiriniz..." , HttpStatus.FORBIDDEN)
-    ;
+    ACCOUNT_NOT_ACTIVE(4116,"Hesabınız aktif edilmemiştir. Lütfen hesabınızı aktif hale getiriniz..." , HttpStatus.FORBIDDEN),
+    USER_NOT_CREATED(4117,"Kullanici profili olusturulamadi...",HttpStatus.BAD_REQUEST);
     private int code;
     private String message;
     private HttpStatus httpStatus;

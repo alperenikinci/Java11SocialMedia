@@ -3,6 +3,7 @@ package com.bilgeadam.controller;
 import com.bilgeadam.dto.request.ActivationRequestDto;
 import com.bilgeadam.dto.request.LoginRequestDto;
 import com.bilgeadam.dto.request.RegisterRequestDto;
+import com.bilgeadam.dto.request.UpdateEmailOrUsernameRequestDto;
 import com.bilgeadam.dto.response.RegisterResponseDto;
 import com.bilgeadam.repository.entity.Auth;
 import com.bilgeadam.service.AuthService;
@@ -68,6 +69,24 @@ public class AuthController {
     public ResponseEntity<String> getRoleFromToken(String token){
         return ResponseEntity.ok(tokenManager.getRoleFromToken(token).get());
     }
+
+
+    @PutMapping("/update_email_or_username")
+    public ResponseEntity<Boolean> updateEmailOrUsername(@RequestBody UpdateEmailOrUsernameRequestDto dto){
+        return ResponseEntity.ok(authService.updateEmailOrUsername(dto));
+    }
+
+    @DeleteMapping(DELETEBYID)
+    public ResponseEntity<Boolean> delete(Long id){
+        return ResponseEntity.ok(authService.delete(id));
+    }
+
+    @DeleteMapping(DELETEBYTOKEN)
+    public ResponseEntity<Boolean> deleteByToken(String token){
+        return ResponseEntity.ok(authService.deleteByToken(token));
+    }
+
+
 
 
 

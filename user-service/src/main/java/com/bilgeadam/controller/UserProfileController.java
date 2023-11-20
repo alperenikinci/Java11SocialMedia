@@ -35,4 +35,9 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.update(dto));
     }
 
+    @DeleteMapping(DELETEBYID)
+    public ResponseEntity<Boolean> delete(@RequestParam Long authId){
+        return ResponseEntity.ok(userProfileService.delete(authId));
+    }
+
 }
