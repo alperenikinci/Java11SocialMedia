@@ -2,12 +2,16 @@ server:
   port: 7071
 
 spring:
+#  zipkin:
+#    enabled: true
+#    base-url: http://localhost:9411
+#    service:
+#      name: user-service
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: root
     url: jdbc:postgresql://localhost:5432/java11UserDB
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -15,8 +19,18 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: java11
+    password: 123
 
 jwt:
   secretkey: ${java11secretkey}
   issuer: ${java11issuer}
   audience: ${java11audience}
+
+rabbitmq:
+  exchange-auth: auth-exchange
+  register-key: register-key
+  queue-register: register-queue

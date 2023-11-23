@@ -11,6 +11,9 @@ import com.bilgeadam.utility.JwtTokenManager;
 import com.bilgeadam.utility.enums.ERole;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import static com.bilgeadam.constants.RestApi.*;
@@ -22,18 +25,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(AUTH)
 public class AuthController {
-/*
-    login metodumuzu düzenleyelim.
-    bize bir token üretip bu token'ı dönsün. ayrıca sadece status'u active olan kullanıcılar giriş yapabilsin.
- */
 
     private final AuthService authService;
     private final JwtTokenManager tokenManager;
+    private final CacheManager cacheManager;
 
 
     @PostMapping(REGISTER)
     public ResponseEntity<RegisterResponseDto>  register (@RequestBody @Valid RegisterRequestDto dto){
         return ResponseEntity.ok(authService.register(dto));
+    }
+    @PostMapping(REGISTER+"2")
+    public ResponseEntity<RegisterResponseDto>  registerWithRabbitMq (@RequestBody @Valid RegisterRequestDto dto){
+        return ResponseEntity.ok(authService.registerWithRabbitMQ(dto));
     }
 
     @PostMapping(LOGIN)
@@ -84,6 +88,41 @@ public class AuthController {
     @DeleteMapping(DELETEBYTOKEN)
     public ResponseEntity<Boolean> deleteByToken(String token){
         return ResponseEntity.ok(authService.deleteByToken(token));
+    }
+
+
+    @GetMapping("/redis")
+    @Cacheable(value = "redisexample")
+    public String redisExample(@RequestParam String value){
+        try {
+            Thread.sleep(2000);
+            return value;
+        } catch (Exception e){
+            throw new RuntimeException();
+        }
+    }
+
+    @GetMapping("/redisdelete")
+    @CacheEvict(cacheNames = "redisexample",allEntries = true)
+    public void redisDelete(){
+
+    }
+
+    @GetMapping("/redisdelete2")
+    public Boolean redisDelete2(){
+        try {
+//            cacheManager.getCache("redisexample").clear(); // "redisexample" etiketli butun cache'leri temizler.
+            cacheManager.getCache("redisexample").evict("alperen");
+            return true;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @GetMapping(FINDBYROLE)
+    public ResponseEntity<List<Long>> findByRole(@RequestParam String role){
+        return ResponseEntity.ok(authService.findByRole(role));
     }
 
 

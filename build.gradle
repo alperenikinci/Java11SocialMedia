@@ -48,6 +48,9 @@ allprojects {
         annotationProcessor     libs.mapStructProcessor
         implementation          libs.springOpenFeign
         implementation          libs.javaJwt
+        implementation          libs.springBootDataRedis
+//        implementation          libs.springCloudSleuthZipkin
+//        implementation          libs.springCloudSleuth
     }
     configurations {
         compileOnly{

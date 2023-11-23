@@ -8,14 +8,20 @@ import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.manager.AuthManager;
 import com.bilgeadam.mapper.UserMapper;
+import com.bilgeadam.rabbitmq.model.RegisterModel;
 import com.bilgeadam.repository.UserProfileRepository;
 import com.bilgeadam.repository.entity.UserProfile;
 import com.bilgeadam.utility.JwtTokenManager;
 import com.bilgeadam.utility.ServiceManager;
 import com.bilgeadam.utility.enums.EStatus;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserProfileService extends ServiceManager<UserProfile,Long> {
@@ -23,12 +29,14 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
     private final UserProfileRepository userProfileRepository;
     private final JwtTokenManager jwtTokenManager;
     private final AuthManager authManager;
+    private final CacheManager cacheManager;
 
-    public UserProfileService(UserProfileRepository userProfileRepository, JwtTokenManager jwtTokenManager, AuthManager authManager) {
+    public UserProfileService(UserProfileRepository userProfileRepository, JwtTokenManager jwtTokenManager, AuthManager authManager, CacheManager cacheManager) {
         super(userProfileRepository);
         this.userProfileRepository = userProfileRepository;
         this.jwtTokenManager = jwtTokenManager;
         this.authManager = authManager;
+        this.cacheManager = cacheManager;
     }
 
     public Boolean createUser(UserCreateRequestDto dto) {
@@ -71,7 +79,9 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
         if(userProfile.isEmpty()){
             throw new UserManagerException(ErrorType.USER_NOT_FOUND);
         }
-        //auth istegi yolla
+
+        cacheManager.getCache("findbyusername").evict(userProfile.get().getUsername().toLowerCase());
+
         if(!dto.getUsername().equals(userProfile.get().getUsername()) || !dto.getEmail().equals(userProfile.get().getEmail())){
             userProfile.get().setUsername(dto.getUsername());
             userProfile.get().setEmail(dto.getEmail());
@@ -101,4 +111,42 @@ public class UserProfileService extends ServiceManager<UserProfile,Long> {
         update(userProfile.get());
         return true;
     }
+
+    @Cacheable(value = "findbyusername",key = "#username.toLowerCase()")
+    public UserProfile findByUsername(String username) { //DENEme1 -> deneme1, DENEme1 -> deneme1 -> cacheleyecek
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Optional<UserProfile> userProfile = userProfileRepository.findOptionalByUsernameIgnoreCase(username);
+        if(userProfile.isEmpty()){
+            throw new UserManagerException(ErrorType.USER_NOT_FOUND);
+        }
+        return userProfile.get();
+    }
+
+    @Cacheable(value="findbyrole",key = "#role.toUpperCase()") //USER  //findbyrole::USER
+    public List<UserProfile> findByRole(String role){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+//        ResponseEntity<List<Long>> authIds= authManager.findByRole(role);
+        List<Long> authIds = authManager.findByRole(role).getBody();
+
+        return authIds.stream().map(x->  userProfileRepository.findOptionalByAuthId(x)
+                .orElseThrow( () -> {throw new UserManagerException(ErrorType.USER_NOT_FOUND);})).collect(Collectors.toList());
+    }
+
+    public Boolean createUserWithRabbitMq(RegisterModel model) {
+        try {
+            save(UserMapper.INSTANCE.fromRegisterModelToUserProfile(model));
+            return true;
+        } catch (Exception e){
+            throw new UserManagerException(ErrorType.USER_NOT_CREATED);
+        }
+    }
+
 }
