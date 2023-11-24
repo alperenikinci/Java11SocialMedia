@@ -10,6 +10,7 @@
         </processorPath>
         <module name="Java11SocialMedia.user-service.main" />
         <module name="com.bilgeadam.Java11SocialMedia.auth-service.main" />
+        <module name="Java11SocialMedia.mail-service.main" />
         <module name="Java11SocialMedia.api-gateway-service.main" />
         <module name="Java11SocialMedia.main" />
         <module name="Java11SocialMedia.config-server.main" />

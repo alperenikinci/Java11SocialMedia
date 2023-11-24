@@ -1,0 +1,25 @@
+#jaaocusirwdalmym
+
+server:
+  port: 7075
+
+spring:
+  mail:
+    username: ${java11mailusername}
+    password: ${java11mailpassword}
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: java11
+    password: 123
+
+rabbitmq:
+  register-mail-queue: register-mail-queue

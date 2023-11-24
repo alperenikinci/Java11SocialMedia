@@ -6,7 +6,7 @@ import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.manager.UserManager;
 import com.bilgeadam.mapper.AuthMapper;
-import com.bilgeadam.rabbitmq.model.RegisterModel;
+import com.bilgeadam.rabbitmq.producer.RegisterMailProducer;
 import com.bilgeadam.rabbitmq.producer.RegisterProducer;
 import com.bilgeadam.repository.AuthRepository;
 import com.bilgeadam.repository.entity.Auth;
@@ -32,14 +32,16 @@ public class AuthService extends ServiceManager<Auth,Long> {
     private final JwtTokenManager jwtTokenManager;
     private final CacheManager cacheManager;
     private final RegisterProducer registerProducer;
+    private final RegisterMailProducer registerMailProducer;
 
-    public AuthService(AuthRepository authRepository, UserManager userManager, JwtTokenManager jwtTokenManager, CacheManager cacheManager, RegisterProducer registerProducer) {
+    public AuthService(AuthRepository authRepository, UserManager userManager, JwtTokenManager jwtTokenManager, CacheManager cacheManager, RegisterProducer registerProducer, RegisterMailProducer registerMailProducer) {
         super(authRepository);
         this.authRepository = authRepository;
         this.userManager = userManager;
         this.jwtTokenManager = jwtTokenManager;
         this.cacheManager = cacheManager;
         this.registerProducer = registerProducer;
+        this.registerMailProducer = registerMailProducer;
     }
 
     @Transactional //Metotta herhangi bir yerden exception donuyorsa metot icerisinde yapilan butun degisiklikleri geri alir. (Rollback)
@@ -65,9 +67,8 @@ public class AuthService extends ServiceManager<Auth,Long> {
             save(auth);
 
             //rabbitmq ile haberlesme saglayacagiz.
-            System.out.println("oncesi");
             registerProducer.sendNewUser(AuthMapper.INSTANCE.fromAuthToRegisterModel(auth));
-
+            registerMailProducer.sendActivationCode(AuthMapper.INSTANCE.fromAuthToRegisterMailModel(auth));
             cacheManager.getCache("findbyrole").evict(auth.getRole().toString().toUpperCase());
         } catch (Exception e){
 //            delete(auth);

@@ -1,6 +1,6 @@
 package com.bilgeadam.repository.entity;
 
-import jakarta.persistence.MappedSuperclass;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@MappedSuperclass
 public class BaseEntity implements Serializable {
     private Long createDate;
     private Long updateDate;

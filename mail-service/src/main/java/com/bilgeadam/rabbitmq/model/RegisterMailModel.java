@@ -11,10 +11,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterModel implements Serializable {
-
-    private Long authId;
-    private String username;
+public class RegisterMailModel implements Serializable {
     private String email;
+    private String username;
+    private String activationCode;
 }
-

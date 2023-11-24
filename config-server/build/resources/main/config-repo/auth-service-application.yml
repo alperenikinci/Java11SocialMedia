@@ -14,7 +14,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/java11AuthDB
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -34,3 +34,5 @@ rabbitmq:
   exchange-auth: auth-exchange
   register-key: register-key
   queue-register: register-queue
+  register-mail-key: register-mail-key
+  register-mail-queue: register-mail-queue
