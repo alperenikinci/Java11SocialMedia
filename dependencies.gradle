@@ -31,7 +31,7 @@ ext{
             springBootRabbitMq:             "org.springframework.boot:spring-boot-starter-amqp:$versions.springBoot",
             springBootMailSender:           "org.springframework.boot:spring-boot-starter-mail:$versions.springBoot",
             springBootDataMongo:            "org.springframework.boot:spring-boot-starter-data-mongodb:$versions.springBoot",
-            springBootElasticSeach:         "org.springframework.boot:spring-boot-starter-data-elasticsearch:$versions.springBoot"
+            springBootElasticSeach:         "org.springframework.boot:spring-boot-starter-data-elasticsearch:$versions.springBoot",
            // Spring 3.0 öncesi spring 2.7.7 versiyonu ile cloud 3.1.5 kullanıldığında sorunsuz çalışır.
 //            springCloudSleuthZipkin:        "org.springframework.cloud:spring-cloud-sleuth-zipkin:3.1.9",
 //            springCloudSleuth:              "org.springframework.cloud:spring-cloud-starter-sleuth:3.1.9"

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-gateway-service/Java11SocialMedia.api-gateway-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-gateway-service/Java11SocialMedia.api-gateway-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/Java11SocialMedia.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/Java11SocialMedia.auth-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/config-server/Java11SocialMedia.config-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/config-server/Java11SocialMedia.config-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elastic-service/Java11SocialMedia.elastic-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/elastic-service/Java11SocialMedia.elastic-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mail-service/Java11SocialMedia.mail-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mail-service/Java11SocialMedia.mail-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-service/Java11SocialMedia.user-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user-service/Java11SocialMedia.user-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service/com.bilgeadam.Java11SocialMedia.auth-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service/com.bilgeadam.Java11SocialMedia.auth-service.main.iml" />

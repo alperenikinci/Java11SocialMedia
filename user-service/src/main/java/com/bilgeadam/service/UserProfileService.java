@@ -143,10 +143,10 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
     public Boolean createUserWithRabbitMq(RegisterModel model) {
         try {
             save(UserMapper.INSTANCE.fromRegisterModelToUserProfile(model));
+            //rabbitmq ile elastic'e gonder.
             return true;
         } catch (Exception e){
             throw new UserManagerException(ErrorType.USER_NOT_CREATED);
         }
     }
-
 }
