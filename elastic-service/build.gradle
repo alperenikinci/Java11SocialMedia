@@ -7,5 +7,5 @@ buildscript {
 dependencies {
 
     implementation libs.springBootElasticSeach
-//    implementation libs.springBootRabbitMq
+    implementation libs.springBootRabbitMq
 }

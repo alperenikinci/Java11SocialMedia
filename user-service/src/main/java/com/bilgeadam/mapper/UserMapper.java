@@ -2,6 +2,7 @@ package com.bilgeadam.mapper;
 
 import com.bilgeadam.dto.request.ActivateStatusRequestDto;
 import com.bilgeadam.dto.request.UserCreateRequestDto;
+import com.bilgeadam.rabbitmq.model.RegisterElasticModel;
 import com.bilgeadam.rabbitmq.model.RegisterModel;
 import com.bilgeadam.repository.entity.UserProfile;
 import org.mapstruct.Mapper;
@@ -17,5 +18,7 @@ public interface UserMapper {
 
     UserProfile fromRegisterModelToUserProfile(RegisterModel model);
     UserCreateRequestDto fromRegisterModelToUserCreateDto(RegisterModel model);
+
+    RegisterElasticModel fromUserProfileToElasticModel(UserProfile userProfile);
 
 }

@@ -9,4 +9,5 @@ dependencies {
     implementation libs.springBootJpa
     implementation libs.springCloudConfigClient
     implementation libs.springBootRabbitMq
+    implementation libs.springBootSecurity
 }

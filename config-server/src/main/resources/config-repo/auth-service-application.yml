@@ -7,6 +7,11 @@ spring:
 #    base-url: http://localhost:9411
 #    service:
 #      name: auth-service
+  security:
+    user:
+      name: alperen
+      password: 123
+
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
@@ -14,7 +19,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/java11AuthDB
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:

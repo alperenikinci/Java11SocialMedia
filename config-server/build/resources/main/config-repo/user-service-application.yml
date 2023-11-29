@@ -26,6 +26,7 @@ jwt:
   audience: ${java11audience}
 
 rabbitmq:
-  exchange-auth: auth-exchange
-  register-key: register-key
+  exchange-user: user-exchange
+  elastic-register-key: elastic-register-key
+  queue-register-elastic: register-queue-elastic
   queue-register: register-queue
