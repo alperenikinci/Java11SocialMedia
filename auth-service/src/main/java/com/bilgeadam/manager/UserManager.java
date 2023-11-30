@@ -16,8 +16,8 @@ public interface UserManager {
     @PostMapping("/create")
     public ResponseEntity<Boolean> createUser(@RequestBody UserCreateRequestDto dto);
 
-    @GetMapping(ACTIVATESTATUS+"/{authId}")
-    public ResponseEntity<Boolean> activateStatus(@PathVariable Long authId);
+    @PostMapping(ACTIVATESTATUS)
+    public ResponseEntity<Boolean> activateStatus(@RequestHeader(value = "Authorization") String token);
 
     @PostMapping(ACTIVATESTATUS+"2")
     public ResponseEntity<Boolean> activateStatus2(@RequestBody ActivateStatusRequestDto dto);

@@ -51,8 +51,10 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
         }
     }
 
-    public Boolean activateStatus(Long authId) {
-      Optional<UserProfile> userProfile = userProfileRepository.findOptionalByAuthId(authId);
+    public Boolean activateStatus(String token) {
+
+      Optional<Long> authId = jwtTokenManager.getIdFromToken(token.substring(7));
+      Optional<UserProfile> userProfile = userProfileRepository.findOptionalByAuthId(authId.get());
       if(userProfile.isEmpty()){
           throw new UserManagerException(ErrorType.USER_NOT_FOUND);
       }else {
@@ -130,14 +132,14 @@ public class UserProfileService extends ServiceManager<UserProfile,String> {
     }
 
     @Cacheable(value="findbyrole",key = "#role.toUpperCase()") //USER  //findbyrole::USER
-    public List<UserProfile> findByRole(String role){
+    public List<UserProfile> findByRole(String token,String role){
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 //        ResponseEntity<List<Long>> authIds= authManager.findByRole(role);
-        List<Long> authIds = authManager.findByRole(role).getBody();
+        List<Long> authIds = authManager.findByRole(token,role).getBody();
 
         return authIds.stream().map(x->  userProfileRepository.findOptionalByAuthId(x)
                 .orElseThrow( () -> {throw new UserManagerException(ErrorType.USER_NOT_FOUND);})).collect(Collectors.toList());

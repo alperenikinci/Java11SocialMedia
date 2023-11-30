@@ -34,6 +34,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
     private final RegisterProducer registerProducer;
     private final RegisterMailProducer registerMailProducer;
 
+
     public AuthService(AuthRepository authRepository, UserManager userManager, JwtTokenManager jwtTokenManager, CacheManager cacheManager, RegisterProducer registerProducer, RegisterMailProducer registerMailProducer) {
         super(authRepository);
         this.authRepository = authRepository;
@@ -96,6 +97,7 @@ public class AuthService extends ServiceManager<Auth,Long> {
                 });
     }
 
+    @Transactional
     public Boolean activateStatus(ActivationRequestDto dto) {
         Optional<Auth> auth = findById(dto.getId());
         if(auth.isEmpty()) {
@@ -105,7 +107,8 @@ public class AuthService extends ServiceManager<Auth,Long> {
             auth.get().setStatus(EStatus.ACTIVE);
             update(auth.get());
 //            userManager.activateStatus(auth.get().getId());
-            userManager.activateStatus2(ActivateStatusRequestDto.builder().authId(dto.getId()).build());
+            String token=jwtTokenManager.createToken(auth.get().getId(),auth.get().getRole()).get();
+            userManager.activateStatus("Bearer "+token);
             //            auth.get().setUpdateDate(System.currentTimeMillis());
             //            authRepository.save(auth.get());
             return true;

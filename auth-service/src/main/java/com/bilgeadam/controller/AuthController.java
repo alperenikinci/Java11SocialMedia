@@ -57,11 +57,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.findAll());
     }
 
-
     @GetMapping("/create_token")
     public ResponseEntity<String> createToken(Long id, ERole role){
         return ResponseEntity.ok(tokenManager.createToken(id,role).get());
     }
+
     @GetMapping("/create_token2")
     public ResponseEntity<String> createToken2(Long id){
         return ResponseEntity.ok(tokenManager.createToken(id).get());
@@ -122,9 +122,9 @@ public class AuthController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(FINDBYROLE)
-    public ResponseEntity<List<Long>> findByRole(@RequestParam String role){
+    public ResponseEntity<List<Long>> findByRole(@RequestHeader(value="Authorization") String token, @RequestParam String role){
         return ResponseEntity.ok(authService.findByRole(role));
     }
 

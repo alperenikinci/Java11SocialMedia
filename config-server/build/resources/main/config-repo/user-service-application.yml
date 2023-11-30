@@ -7,6 +7,10 @@ spring:
 #    base-url: http://localhost:9411
 #    service:
 #      name: user-service
+  security:
+    user:
+      name: alperen
+      password: 123
   data:
     mongodb:
       host: localhost
